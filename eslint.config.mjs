@@ -27,6 +27,6 @@ export default [
     }
   },
   {
-    ignores: ["coverage/", "node_modules/"]
+    ignores: ["coverage/", "node_modules/", "eslint.config.mjs"]
   }
 ];
