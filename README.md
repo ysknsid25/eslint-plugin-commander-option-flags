@@ -99,6 +99,28 @@ The core logic is located in `lib/rules/commander-option-flags.js`. Here is a hi
 
 This plugin works with TypeScript files parsed by `@typescript-eslint/parser`.
 
+## Release Process
+
+This project uses a manual GitHub Actions workflow to automate releases.
+
+1.  **Configure Secrets**:
+    Ensure the `NPM_TOKEN` secret is set in the repository settings (Settings > Secrets and variables > Actions). This token requires "Automation" permissions on npm.
+
+2.  **Push a Tag**:
+    To initiate a release, first create and push a git tag for the new version.
+    ```bash
+    git tag v1.0.1
+    git push origin v1.0.1
+    ```
+
+3.  **Run Workflow**:
+    Go to the **Actions** tab in the GitHub repository, select the **Release** workflow, and click **Run workflow**.
+
+    The workflow will automatically:
+    *   Sync the `package.json` version with the git tag.
+    *   Create a GitHub Release with auto-generated notes.
+    *   Publish the package to npm.
+
 ## License
 
 MIT
