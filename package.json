@@ -21,6 +21,10 @@
         "flags",
         "style"
     ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ysknsid25/eslint-plugin-commander-option-flags.git"
+    },
     "author": "Kanon",
     "license": "MIT",
     "engines": {
@@ -42,4 +46,3 @@
         "typescript": "^5.0.0"
     }
 }
-
