@@ -3,6 +3,7 @@
     "version": "1.0.0",
     "description": "ESLint plugin to enforce commander option flags style",
     "main": "lib/index.js",
+    "type": "commonjs",
     "scripts": {
         "test": "mocha tests/**/*.js",
         "lint": "eslint .",

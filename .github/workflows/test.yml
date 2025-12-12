@@ -7,7 +7,7 @@ on:
     branches: [ master ]
 
 jobs:
-  test-node:
+  node:
     runs-on: ubuntu-latest
 
     strategy:
@@ -25,7 +25,7 @@ jobs:
     - name: Test
       run: npm test
 
-  test-bun:
+  bun:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -36,7 +36,7 @@ jobs:
     - name: Test with Bun
       run: bun run test
 
-  test-deno:
+  deno:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
