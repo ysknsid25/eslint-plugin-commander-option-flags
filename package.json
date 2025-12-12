@@ -1,0 +1,40 @@
+{
+    "name": "eslint-plugin-commander-option-flags",
+    "version": "1.0.0",
+    "description": "ESLint plugin to enforce commander option flags style",
+    "main": "lib/index.js",
+      "scripts": {
+        "test": "mocha tests/**/*.js",
+        "lint": "eslint .",
+        "lint:fix": "eslint . --fix"
+      },
+    
+    "keywords": [
+        "eslint",
+        "eslintplugin",
+        "eslint-plugin",
+        "commander",
+        "flags",
+        "style"
+    ],
+    "author": "Kanon",
+    "license": "MIT",
+    "engines": {
+        "node": ">=18.0.0"
+    },
+    "dependencies": {
+        "requireindex": "^1.2.0"
+    },
+    "peerDependencies": {
+        "eslint": ">=8.0.0"
+    },
+    "devDependencies": {
+        "@eslint/js": "^9.39.1",
+        "@stylistic/eslint-plugin": "^5.6.1",
+        "@typescript-eslint/parser": "^8.0.0",
+        "eslint": "^9.0.0",
+        "globals": "^16.5.0",
+        "mocha": "^10.0.0",
+        "typescript": "^5.0.0"
+    }
+}
