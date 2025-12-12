@@ -22,6 +22,12 @@ Next, install `eslint-plugin-commander-option-flags`:
 npm install eslint-plugin-commander-option-flags --save-dev
 ```
 
+### Prerequisites
+
+This project pins the Node.js and npm versions using [Volta](https://volta.sh/). It is highly recommended to install Volta to ensure you are using the correct versions automatically.
+
+Once you have Volta installed, just `cd` into the project directory, and Volta will switch to the pinned Node.js version.
+
 ## Usage
 
 Add `commander-option-flags` to the plugins section of your `.eslintrc` configuration file. You can omit the `eslint-plugin-` prefix:
