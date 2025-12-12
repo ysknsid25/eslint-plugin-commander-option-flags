@@ -46,4 +46,4 @@ jobs:
     - name: Install dependencies (Deno Node-compat)
       run: deno install --allow-scripts
     - name: Test with Deno
-      run: deno task test
+      run: deno run -A npm:mocha tests/**/*.js
