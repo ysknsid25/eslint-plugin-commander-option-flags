@@ -1,0 +1,80 @@
+name: Release
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Sync version with tag and Push
+        id: sync_version
+        run: |
+          # 最新のタグを取得 (タグがない場合はエラーになる可能性があるためチェック)
+          if ! git describe --tags --abbrev=0 >/dev/null 2>&1; then
+            echo "No tags found. Skipping version sync."
+            echo "tag=0.0.0" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+
+          LATEST_TAG=$(git describe --tags --abbrev=0)
+          echo "Latest tag: $LATEST_TAG"
+          
+          VERSION=${LATEST_TAG#v}
+          echo "Target version: $VERSION"
+          
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          echo "Current package.json version: $CURRENT_VERSION"
+          
+          if [ "$VERSION" != "$CURRENT_VERSION" ]; then
+            echo "Updating package.json version to $VERSION..."
+            npm version $VERSION --no-git-tag-version
+            git add package.json
+            git commit -m "chore: update version to $VERSION"
+            git push
+            echo "updated=true" >> $GITHUB_OUTPUT
+          else
+            echo "Version matches. No update needed."
+            echo "updated=false" >> $GITHUB_OUTPUT
+          fi
+          echo "tag=$LATEST_TAG" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG_NAME=${{ steps.sync_version.outputs.tag }}
+          if gh release view "$TAG_NAME" >/dev/null 2>&1; then
+            echo "Release $TAG_NAME already exists."
+          else
+            echo "Creating release for $TAG_NAME..."
+            gh release create "$TAG_NAME" --generate-notes
+          fi
+
+      - name: Publish to npm
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --provenance --access public
